@@ -1,5 +1,5 @@
 # GithubLabelSetUpper
-[![Build Status](https://dev.azure.com/MobileAct/GithubLabelSetUpper/_apis/build/status/MobileAct.GithubLabelSetUpper?branchName=master)](https://dev.azure.com/MobileAct/GithubLabelSetUpper/_build/latest?definitionId=4&branchName=master)  
+[![Build Status](https://dev.azure.com/MobileAct/GithubLabelSetUpper/_apis/build/status/MobileAct.GithubLabelSetUpper?branchName=master)](https://dev.azure.com/MobileAct/GithubLabelSetUpper/_build/latest?definitionId=4&branchName=master) [![NuGet version](https://badge.fury.io/nu/MobileAct.GithubLabelSetUpper.svg)](https://badge.fury.io/nu/MobileAct.GithubLabelSetUpper)  
 This tool is motivated by [Financial-Times/github-label-sync](https://github.com/Financial-Times/github-label-sync)
 
 ## Usage
