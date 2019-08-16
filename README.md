@@ -3,7 +3,7 @@
 This tool is motivated by [Financial-Times/github-label-sync](https://github.com/Financial-Times/github-label-sync)
 
 ## Usage
-This tool is published by Github Releases.
+This tool is published by [NuGet](https://www.nuget.org/packages/MobileAct.GithubLabelSetUpper)
 
 ### List labels
 
