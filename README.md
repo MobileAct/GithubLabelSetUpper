@@ -3,7 +3,9 @@
 This tool is motivated by [Financial-Times/github-label-sync](https://github.com/Financial-Times/github-label-sync)
 
 ## Usage
-This tool is published by [NuGet](https://www.nuget.org/packages/MobileAct.GithubLabelSetUpper)
+This tool is published by [NuGet](https://www.nuget.org/packages/MobileAct.GithubLabelSetUpper).
+
+Installed `hublabel` command.
 
 ### List labels
 
@@ -34,7 +36,7 @@ REPOSITORY_OWNER/REPOSITORY_NAME
 -o
 output.yml
 ```
-Execute command on terminal (Mac): `./GithubLabelSetUpper @list.txt`
+Execute command: `hublabel @list.txt`
 
 ### SetUp Labels
 
@@ -66,7 +68,7 @@ REPOSITORY_OWNER/REPOSITORY_NAME
 -l
 LABEL_FILE
 ```
-Execute command on terminal (Mac): `./GithubLabelSetUpper @setup.txt`
+Execute command: `hublabel @setup.txt`
 
 ### Label file
 Support file type: JSON or YAML
