@@ -1,0 +1,26 @@
+trigger:
+  tags:
+    include:
+      - '*'
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  buildConfiguration: 'Release'
+
+steps:
+- task: DotNetCoreCLI@2
+  inputs:
+   command: pack
+   projects: 'GitHubLabelSetUpper/*.csproj'
+   configuration: '$(buildConfiguration)'
+   versioningScheme: 'byEnvVar'
+   versionEnvVar: 'Build.SourceBranchName'
+   outputDir: '$(Build.ArtifactStagingDirectory)'
+- task: DotNetCoreCLI@2
+  inputs:
+   command: push
+   searchPatternPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
+   nugetFeedType: 'external'
+   externalEndPoint: 'nugetConnection'
