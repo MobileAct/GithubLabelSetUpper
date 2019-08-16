@@ -7,7 +7,7 @@
     <PackAsTool>true</PackAsTool>
     <ToolCommandName>hublabel</ToolCommandName>
 
-    <PackageId>GithubLabelSetUpper</PackageId>
+    <PackageId>MobileAct.GithubLabelSetUpper</PackageId>
     <Version>0.0.1</Version>
     <Authors>Mobile Act</Authors>
     <PackageProjectUrl>https://github.com/MobileAct/GithubLabelSetUpper</PackageProjectUrl>
