@@ -18,9 +18,10 @@ steps:
    versioningScheme: 'byEnvVar'
    versionEnvVar: 'Build.SourceBranchName'
    outputDir: '$(Build.ArtifactStagingDirectory)'
-- task: DotNetCoreCLI@2
+# cannot use DotNetCoreCLI@2 command, because its command cannot use encrypted API Key
+- task: NuGetCommand@2
   inputs:
    command: push
    searchPatternPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
-   nugetFeedType: 'external'
+   nuGetFeedType: 'external'
    externalEndPoint: 'nugetConnection'
