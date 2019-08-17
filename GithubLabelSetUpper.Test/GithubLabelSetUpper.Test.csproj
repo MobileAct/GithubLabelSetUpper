@@ -22,10 +22,6 @@
     <ProjectReference Include="..\GithubLabelSetUpper\GithubLabelSetUpper.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Remove="UnitTest1.cs" />
-    <Compile Remove="UnitTest1.cs" />
-  </ItemGroup>
-  <ItemGroup>
     <None Remove="YamlTest.json" />
     <None Remove="JsonTest.json" />
   </ItemGroup>
