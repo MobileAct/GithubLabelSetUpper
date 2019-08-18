@@ -3,16 +3,23 @@
 This tool is motivated by [Financial-Times/github-label-sync](https://github.com/Financial-Times/github-label-sync)
 
 ## Usage
-This tool is published by [NuGet](https://www.nuget.org/packages/MobileAct.GithubLabelSetUpper).
+1. Install .NET Core 2.2 or higher.
+1. Install [this package](https://www.nuget.org/packages/MobileAct.GithubLabelSetUpper).
 
 Installed `hublabel` command.
 
-### List labels
+### Environment Variables
+- `GITHUB_HOST`: using environment variable instead of argument `--host`
+- `GITHUB_TOKEN`: using environment variable instead of argument `-t|--token`
+
+### Commands
+
+#### List labels
 
 ```
 List the all labels
 
-Usage: GithubLabelSetUpper list [options]
+Usage: hublabel list [options]
 
 Options:
   -h|--help        Show help information
@@ -38,12 +45,12 @@ output.yml
 ```
 Execute command: `hublabel @list.txt`
 
-### SetUp Labels
+#### SetUp Labels
 
 ```
 Setup Github labels by option value
 
-Usage: GithubLabelSetUpper setup [options]
+Usage: hublabel setup [options]
 
 Options:
   -h|--help        Show help information
@@ -109,6 +116,10 @@ This tool is using libraries:
 
 ## Contribute
 ToDo: Write
+
+### Development Environment
+- C# 8.0
+- Visual Studio 2019 Preview
 
 ## Other
 Author: [@MeilCli](https://github.com/MeilCli)

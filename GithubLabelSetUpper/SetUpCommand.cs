@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
+using Core;
 using McMaster.Extensions.CommandLineUtils;
-using Octokit;
 using Utf8Json;
 using YamlDotNet.Serialization;
 
@@ -15,12 +14,12 @@ namespace GithubLabelSetUpper
     public class SetUpCommand : BaseCommand
     {
         [Option("--host", Description = "Host of Github instance, default value is https://github.com")]
-        public string Host { get; }
+        public string? Host { get; }
 
         [Option("-t|--token", Description = "Token of Github")]
-        [Required]
-        public string Token { get; }
+        public string? Token { get; }
 
+#pragma warning disable CS8618 // auto attach non-null value by CommandLineUtils
         [Option("-r|--repository", Description = "Target repository, value format: {Owner}/{RepositoryName}")]
         [Required]
         public string Repository { get; }
@@ -29,6 +28,7 @@ namespace GithubLabelSetUpper
         [FileExists]
         [Required]
         public string LabelsPath { get; }
+#pragma warning restore CS8618
 
         [Option("-d|--dry-run", Description = "Calculate the required label changes, but do not apply Github")]
         public bool IsDryRun { get; }
@@ -36,53 +36,32 @@ namespace GithubLabelSetUpper
         protected override async Task OnExecuteAsync(CommandLineApplication application)
         {
             (string owner, string repositoryName) = parseRepository();
-            IGitHubClient github = Github.CreateClient(Token, Host);
+            string environmentHost = Environment.GetEnvironmentVariable(Constant.EnvironmentHost);
+            string environmentToken = Environment.GetEnvironmentVariable(Constant.EnvironmentToken);
+            var githubApi = new GithubApi(Host ?? environmentHost, Token ?? environmentToken, owner, repositoryName);
+            var labelDifferenceProcessor = new LabelDifferenceProcessor(githubApi);
 
-            IReadOnlyList<Octokit.Label> repositoryLabels = await github.Issue.Labels.GetAllForRepository(owner, repositoryName);
-            IList<Label> changingLabels = readLabels();
-            IList<Change> changes = calculateChangeLabel(repositoryLabels, changingLabels);
+            IReadOnlyList<Label> repositoryLabels = await githubApi.GetLabelsAsync();
+            IReadOnlyList<Label> configuredLabels = readLabels();
+            IReadOnlyList<LabelChangeStrategy> labelChangeStrategies = labelDifferenceProcessor.Process(repositoryLabels, configuredLabels);
 
             Console.WriteLine($"{owner}/{repositoryName} label will be:");
 
-            foreach (var change in changes)
+            foreach (var labelChangeStrategy in labelChangeStrategies)
             {
-                switch (change.Type)
-                {
-                    case Change.ChangeType.AddToRepository:
-                        {
-                            Console.WriteLine($"Add: {toLabelString(change.ChangingLabel)}");
-                            break;
-                        }
-                    case Change.ChangeType.RemoveFromRepository:
-                        {
-                            Console.WriteLine($"Remove: {toOctokitLabelString(change.RepositoryLabel)}");
-                            break;
-                        }
-                    case Change.ChangeType.Change:
-                        {
-                            Console.WriteLine($"Change: {toOctokitLabelString(change.RepositoryLabel)} ===> {toLabelString(change.ChangingLabel)}");
-                            break;
-                        }
-                }
+                Console.WriteLine(labelChangeStrategy.ToString());
             }
 
-            if (IsDryRun == false)
+            if (IsDryRun is false)
             {
-                await pushChangeToGithubAsync(github, owner, repositoryName, changes);
+                foreach (var labelChangeStrategy in labelChangeStrategies)
+                {
+                    await labelChangeStrategy.ChangeLabelAsync();
+                }
             }
             else
             {
                 Console.WriteLine("Dry Run: Not apply to Github.");
-            }
-
-            string toOctokitLabelString(Octokit.Label label)
-            {
-                return $"name: {label.Name}, color: {label.Color}, description: {label.Description}";
-            }
-
-            string toLabelString(Label label)
-            {
-                return $"name: {label.Name}, color: {label.Color}, description: {label.Description}";
             }
         }
 
@@ -98,7 +77,7 @@ namespace GithubLabelSetUpper
             return (ar[0], ar[1]);
         }
 
-        private IList<Label> readLabels()
+        private IReadOnlyList<Label> readLabels()
         {
             string content = File.ReadAllText(LabelsPath);
 
@@ -116,105 +95,12 @@ namespace GithubLabelSetUpper
                 throw new ArgumentException("Not supported file type, now support: json, yaml");
             }
 
-            return labels;
-        }
-
-        private IList<Change> calculateChangeLabel(IReadOnlyList<Octokit.Label> repositoryLabels, IList<Label> changingLabels)
-        {
-            var result = new List<Change>();
-
-            List<Octokit.Label> labelBag = new List<Octokit.Label>(repositoryLabels);
-
-            foreach (var changingLabel in changingLabels)
+            foreach (var label in labels)
             {
-                Octokit.Label repositoryLabel = labelBag.FirstOrDefault(x => x.Name == changingLabel.Name);
-
-                if (repositoryLabel != null)
-                {
-                    if (repositoryLabel.Color != changingLabel.Color || repositoryLabel.Description != changingLabel.Description)
-                    {
-                        result.Add(new Change { RepositoryLabel = repositoryLabel, ChangingLabel = changingLabel, Type = Change.ChangeType.Change });
-                    }
-
-                    labelBag.Remove(repositoryLabel);
-                    continue;
-                }
-
-                repositoryLabel = labelBag.FirstOrDefault(x => changingLabel.Aliases?.Contains(x.Name) ?? false);
-
-                if (repositoryLabel != null)
-                {
-                    result.Add(new Change { RepositoryLabel = repositoryLabel, ChangingLabel = changingLabel, Type = Change.ChangeType.Change });
-                    labelBag.Remove(repositoryLabel);
-                    continue;
-                }
-
-                result.Add(new Change { ChangingLabel = changingLabel, Type = Change.ChangeType.AddToRepository });
+                label.ValidateOrThrow();
             }
 
-            foreach (var repositoryLabel in labelBag)
-            {
-                result.Add(new Change { RepositoryLabel = repositoryLabel, Type = Change.ChangeType.RemoveFromRepository });
-            }
-
-            return result;
-        }
-
-        private async Task pushChangeToGithubAsync(IGitHubClient github, string owner, string repositoryName, IList<Change> changes)
-        {
-            foreach (var change in changes)
-            {
-                switch (change.Type)
-                {
-                    case Change.ChangeType.AddToRepository:
-                        {
-                            var newLabel = new NewLabel(change.ChangingLabel.Name, change.ChangingLabel.Color)
-                            {
-                                Description = change.ChangingLabel.Description
-                            };
-                            await github.Issue.Labels.Create(owner, repositoryName, newLabel);
-                            break;
-                        }
-                    case Change.ChangeType.RemoveFromRepository:
-                        {
-                            await github.Issue.Labels.Delete(owner, repositoryName, change.RepositoryLabel.Name);
-                            break;
-                        }
-                    case Change.ChangeType.Change:
-                        {
-                            var updateLabel = new LabelUpdate(change.ChangingLabel.Name, change.ChangingLabel.Color)
-                            {
-                                Description = change.ChangingLabel.Description
-                            };
-                            await github.Issue.Labels.Update(owner, repositoryName, change.RepositoryLabel.Name, updateLabel);
-                            break;
-                        }
-                }
-            }
-        }
-
-        private class Change
-        {
-            public enum ChangeType
-            {
-                AddToRepository,
-                RemoveFromRepository,
-                Change
-            }
-
-            /// <summary>
-            /// Contains if Type = AddToRepository, Change
-            /// </summary>
-            /// <value>The changing label.</value>
-            public Label ChangingLabel { get; set; }
-
-            /// <summary>
-            /// Contains if Type = RemoveFromRepository, Change
-            /// </summary>
-            /// <value>The repository label.</value>
-            public Octokit.Label RepositoryLabel { get; set; }
-
-            public ChangeType Type { get; set; }
+            return (IReadOnlyList<Label>)labels;
         }
     }
 }

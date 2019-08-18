@@ -28,16 +28,16 @@ namespace GithubLabelSetUpper.Test
         public void TestJson()
         {
             string json = readResourceFile(testJsonFileName);
-            var labels = JsonSerializer.Deserialize<IList<Label>>(json);
+            IReadOnlyList<Label> labels = (IReadOnlyList<Label>)JsonSerializer.Deserialize<IList<Label>>(json);
 
             Assert.AreEqual(2, labels.Count);
 
             Assert.AreEqual("name1", labels[0].Name);
             Assert.AreEqual("ffffff", labels[0].Color);
             Assert.AreEqual("description", labels[0].Description);
-            Assert.AreEqual(2, labels[0].Aliases.Length);
-            Assert.AreEqual("name1_1", labels[0].Aliases[0]);
-            Assert.AreEqual("name1_2", labels[0].Aliases[1]);
+            Assert.AreEqual(2, labels[0].Aliases!.Length);
+            Assert.AreEqual("name1_1", labels[0].Aliases![0]);
+            Assert.AreEqual("name1_2", labels[0].Aliases![1]);
 
             Assert.AreEqual("name2", labels[1].Name);
             Assert.AreEqual("ffffff", labels[1].Color);
@@ -49,16 +49,16 @@ namespace GithubLabelSetUpper.Test
         public void TestYaml()
         {
             string yaml = readResourceFile(testYamlFileName);
-            var labels = new DeserializerBuilder().Build().Deserialize<IList<Label>>(yaml);
+            IReadOnlyList<Label> labels = (IReadOnlyList<Label>)new DeserializerBuilder().Build().Deserialize<IList<Label>>(yaml);
 
             Assert.AreEqual(2, labels.Count);
 
             Assert.AreEqual("name1", labels[0].Name);
             Assert.AreEqual("ffffff", labels[0].Color);
             Assert.AreEqual("description", labels[0].Description);
-            Assert.AreEqual(2, labels[0].Aliases.Length);
-            Assert.AreEqual("name1_1", labels[0].Aliases[0]);
-            Assert.AreEqual("name1_2", labels[0].Aliases[1]);
+            Assert.AreEqual(2, labels[0].Aliases!.Length);
+            Assert.AreEqual("name1_1", labels[0].Aliases![0]);
+            Assert.AreEqual("name1_2", labels[0].Aliases![1]);
 
             Assert.AreEqual("name2", labels[1].Name);
             Assert.AreEqual("ffffff", labels[1].Color);
