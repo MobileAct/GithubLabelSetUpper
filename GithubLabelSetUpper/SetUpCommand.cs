@@ -16,11 +16,10 @@ namespace GithubLabelSetUpper
         [Option("--host", Description = "Host of Github instance, default value is https://github.com")]
         public string? Host { get; }
 
-#pragma warning disable CS8618 // auto attach non-null value by CommandLineUtils
         [Option("-t|--token", Description = "Token of Github")]
-        [Required]
-        public string Token { get; }
+        public string? Token { get; }
 
+#pragma warning disable CS8618 // auto attach non-null value by CommandLineUtils
         [Option("-r|--repository", Description = "Target repository, value format: {Owner}/{RepositoryName}")]
         [Required]
         public string Repository { get; }
