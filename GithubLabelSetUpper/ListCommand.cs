@@ -31,7 +31,9 @@ namespace GithubLabelSetUpper
         protected override async Task OnExecuteAsync(CommandLineApplication application)
         {
             (string owner, string repositoryName) = parseRepository();
-            var githubApi = new GithubApi(Host, Token, owner, repositoryName);
+            string environmentHost = Environment.GetEnvironmentVariable(Constant.EnvironmentHost);
+            string environmentToken = Environment.GetEnvironmentVariable(Constant.EnvironmentToken);
+            var githubApi = new GithubApi(Host ?? environmentHost, Token ?? environmentToken, owner, repositoryName);
 
             IReadOnlyList<Label> labels = await githubApi.GetLabelsAsync();
 
