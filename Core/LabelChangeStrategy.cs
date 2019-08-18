@@ -46,7 +46,7 @@ namespace Core
 
             public override string ToString()
             {
-                return $"Remoe: {oldLabel.ToString()}";
+                return $"Remove: {oldLabel.ToString()}";
             }
         }
 
