@@ -28,7 +28,7 @@ namespace GithubLabelSetUpper.Test
         public void TestJson()
         {
             string json = readResourceFile(testJsonFileName);
-            var labels = JsonSerializer.Deserialize<IList<Label>>(json);
+            IReadOnlyList<Label> labels = (IReadOnlyList<Label>)JsonSerializer.Deserialize<IList<Label>>(json);
 
             Assert.AreEqual(2, labels.Count);
 
@@ -49,7 +49,7 @@ namespace GithubLabelSetUpper.Test
         public void TestYaml()
         {
             string yaml = readResourceFile(testYamlFileName);
-            var labels = new DeserializerBuilder().Build().Deserialize<IList<Label>>(yaml);
+            IReadOnlyList<Label> labels = (IReadOnlyList<Label>)new DeserializerBuilder().Build().Deserialize<IList<Label>>(yaml);
 
             Assert.AreEqual(2, labels.Count);
 

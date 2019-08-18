@@ -1,9 +1,11 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
+using Core;
 using YamlDotNet.Serialization;
 
 namespace GithubLabelSetUpper
 {
-    public class Label
+    public class Label : ILabel
     {
         private static class Key
         {
@@ -28,5 +30,29 @@ namespace GithubLabelSetUpper
         [DataMember(Name = Key.Aliases)]
         [YamlMember(Alias = Key.Aliases, ApplyNamingConventions = false)]
         public string[]? Aliases { get; set; }
+
+        public void ValidateOrThrow()
+        {
+            if (Name is null)
+            {
+                throw new ArgumentNullException(nameof(Name));
+            }
+            if (Color is null)
+            {
+                throw new ArgumentNullException(nameof(Color));
+            }
+        }
+
+        public override string ToString()
+        {
+            if (Aliases is null)
+            {
+                return $"Name: {Name}, Color: {Color}, Description: {Description}";
+            }
+            else
+            {
+                return $"Name: {Name}, Color: {Color}, Description: {Description}, Aliases: {string.Join(',', Aliases)}";
+            }
+        }
     }
 }

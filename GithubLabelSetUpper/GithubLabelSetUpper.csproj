@@ -28,4 +28,7 @@
     <PackageReference Include="Octokit" Version="0.32.0" />
     <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="2.4.0-beta.81" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Core.csproj" />
+  </ItemGroup>
 </Project>
