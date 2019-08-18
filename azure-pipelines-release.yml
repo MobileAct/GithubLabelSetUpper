@@ -28,6 +28,6 @@ steps:
 - task: NuGetCommand@2
   inputs:
     command: push
-    searchPatternPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
+    searchPatternPush: '$(Build.ArtifactStagingDirectory)/GitHubLabelSetUpper.*.nupkg'
     nuGetFeedType: 'external'
     externalEndPoint: 'nugetConnection'
