@@ -9,12 +9,14 @@ namespace GithubLabelSetUpper
 
         private const string userAgent = nameof(GithubLabelSetUpper);
 
-        public static IGitHubClient CreateClient(string githubToken, string githubHost = defaultGithubHost)
+        public static IGitHubClient CreateClient(string? githubToken, string? githubHost)
         {
-            return new GitHubClient(new ProductHeaderValue(userAgent), new Uri(githubHost))
+            var client = new GitHubClient(new ProductHeaderValue(userAgent), new Uri(githubHost ?? defaultGithubHost));
+            if (githubToken! is null)
             {
-                Credentials = new Credentials(githubToken)
-            };
+                client.Credentials = new Credentials(githubToken);
+            }
+            return client;
         }
     }
 }

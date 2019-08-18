@@ -1,13 +1,13 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using McMaster.Extensions.CommandLineUtils;
 using Octokit;
 using Utf8Json;
 using YamlDotNet.Serialization;
-using System.IO;
 
 namespace GithubLabelSetUpper
 {
@@ -15,18 +15,19 @@ namespace GithubLabelSetUpper
     public class ListCommand : BaseCommand
     {
         [Option("--host", Description = "Host of Github instance, default value is https://github.com")]
-        public string Host { get; }
+        public string? Host { get; }
 
         [Option("-t|--token", Description = "Token of Github")]
-        [Required]
-        public string Token { get; }
+        public string? Token { get; }
 
         [Option("-r|--repository", Description = "Target repository, value format: {Owner}/{RepositoryName}")]
         [Required]
+#pragma warning disable CS8618 // auto attach non-null value by CommandLineUtils
         public string Repository { get; }
+#pragma warning restore CS8618
 
         [Option("-o|--output", Description = "Output file name, including file extension")]
-        public string OutputFileName { get; }
+        public string? OutputFileName { get; }
 
 
         protected override async Task OnExecuteAsync(CommandLineApplication application)

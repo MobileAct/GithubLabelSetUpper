@@ -15,20 +15,26 @@ namespace GithubLabelSetUpper
     public class SetUpCommand : BaseCommand
     {
         [Option("--host", Description = "Host of Github instance, default value is https://github.com")]
-        public string Host { get; }
+        public string? Host { get; }
 
         [Option("-t|--token", Description = "Token of Github")]
         [Required]
+#pragma warning disable CS8618 // auto attach non-null value by CommandLineUtils
         public string Token { get; }
+#pragma warning restore CS8618
 
         [Option("-r|--repository", Description = "Target repository, value format: {Owner}/{RepositoryName}")]
         [Required]
+#pragma warning disable CS8618 // auto attach non-null value by CommandLineUtils
         public string Repository { get; }
+#pragma warning restore CS8618
 
         [Option("-l|--label", Description = "The labels configuration file, support json or yml file.")]
         [FileExists]
         [Required]
+#pragma warning disable CS8618 // auto attach non-null value by CommandLineUtils
         public string LabelsPath { get; }
+#pragma warning restore CS8618
 
         [Option("-d|--dry-run", Description = "Calculate the required label changes, but do not apply Github")]
         public bool IsDryRun { get; }
@@ -206,13 +212,13 @@ namespace GithubLabelSetUpper
             /// Contains if Type = AddToRepository, Change
             /// </summary>
             /// <value>The changing label.</value>
-            public Label ChangingLabel { get; set; }
+            public Label? ChangingLabel { get; set; }
 
             /// <summary>
             /// Contains if Type = RemoveFromRepository, Change
             /// </summary>
             /// <value>The repository label.</value>
-            public Octokit.Label RepositoryLabel { get; set; }
+            public Octokit.Label? RepositoryLabel { get; set; }
 
             public ChangeType Type { get; set; }
         }
