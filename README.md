@@ -3,13 +3,13 @@
 This tool is motivated by [Financial-Times/github-label-sync](https://github.com/Financial-Times/github-label-sync)
 
 This tool package is different for each provider:
-- GitHub
-- Gitea
+- [GitHub](https://github.com/)
+- [Gitea](https://gitea.io/en-us/)
 
 Table Content
-- GitHub
-- Gitea
-- Other
+- [GitHub](#github)
+- [Gitea](#gitea)
+- [Other](#other)
 
 # GitHub
 ## Usage
