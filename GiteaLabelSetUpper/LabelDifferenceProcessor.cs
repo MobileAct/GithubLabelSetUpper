@@ -1,11 +1,11 @@
 ﻿using System.Linq;
 using Core;
 
-namespace GithubLabelSetUpper
+namespace GiteaLabelSetUpper
 {
-    public class LabelDifferenceProcessor : BaseLabelDifferenceProcessor<Label, GithubApi>
+    public class LabelDifferenceProcessor : BaseLabelDifferenceProcessor<Label, GiteaApi>
     {
-        public LabelDifferenceProcessor(GithubApi api) : base(api) { }
+        public LabelDifferenceProcessor(GiteaApi api) : base(api) { }
 
         protected override bool IsSameLabel(Label label1, Label label2)
         {
@@ -14,6 +14,10 @@ namespace GithubLabelSetUpper
 
         protected override bool IsEqualLabel(Label source, Label configuredLabel)
         {
+            if (source.Id is long sourceId && configuredLabel.Id is long configuredId)
+            {
+                return sourceId == configuredId;
+            }
             return source.Name == configuredLabel.Name || (configuredLabel.Aliases?.Contains(source.Name) ?? false);
         }
     }

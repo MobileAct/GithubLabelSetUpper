@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Utf8Json;
 using YamlDotNet.Serialization;
 
-namespace GithubLabelSetUpper.Test
+namespace GiteaLabelSetUpper.Test
 {
     [TestClass]
     public class LabelTest
@@ -32,6 +32,7 @@ namespace GithubLabelSetUpper.Test
 
             Assert.AreEqual(2, labels.Count);
 
+            Assert.AreEqual(123, labels[0].Id);
             Assert.AreEqual("name1", labels[0].Name);
             Assert.AreEqual("ffffff", labels[0].Color);
             Assert.AreEqual("description", labels[0].Description);
@@ -39,6 +40,7 @@ namespace GithubLabelSetUpper.Test
             Assert.AreEqual("name1_1", labels[0].Aliases![0]);
             Assert.AreEqual("name1_2", labels[0].Aliases![1]);
 
+            Assert.AreEqual(null, labels[1].Id);
             Assert.AreEqual("name2", labels[1].Name);
             Assert.AreEqual("ffffff", labels[1].Color);
             Assert.AreEqual(null, labels[1].Description);
@@ -53,6 +55,7 @@ namespace GithubLabelSetUpper.Test
 
             Assert.AreEqual(2, labels.Count);
 
+            Assert.AreEqual(123, labels[0].Id);
             Assert.AreEqual("name1", labels[0].Name);
             Assert.AreEqual("ffffff", labels[0].Color);
             Assert.AreEqual("description", labels[0].Description);
@@ -60,6 +63,7 @@ namespace GithubLabelSetUpper.Test
             Assert.AreEqual("name1_1", labels[0].Aliases![0]);
             Assert.AreEqual("name1_2", labels[0].Aliases![1]);
 
+            Assert.AreEqual(null, labels[1].Id);
             Assert.AreEqual("name2", labels[1].Name);
             Assert.AreEqual("ffffff", labels[1].Color);
             Assert.AreEqual(null, labels[1].Description);
