@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace Core
 {
@@ -19,7 +18,7 @@ namespace Core
 
             foreach (var configuredLabel in configuredLabels)
             {
-                TLabel foundLabel = labelBag.Find(x => x.Name == configuredLabel.Name || (configuredLabel.Aliases?.Contains(x.Name) ?? false));
+                TLabel foundLabel = labelBag.Find(x => IsEqualLabel(x, configuredLabel));
                 if (foundLabel is { })
                 {
                     if (IsSameLabel(foundLabel, configuredLabel) is false)
@@ -41,6 +40,20 @@ namespace Core
             return result;
         }
 
+        /// <summary>
+        /// Deal with same label, but not deep equals
+        /// </summary>
+        /// <param name="label1"></param>
+        /// <param name="label2"></param>
+        /// <returns></returns>
         protected abstract bool IsSameLabel(TLabel label1, TLabel label2);
+
+        /// <summary>
+        /// Deal with same label, and deep equals
+        /// </summary>
+        /// <param name="label1"></param>
+        /// <param name="label2"></param>
+        /// <returns></returns>
+        protected abstract bool IsEqualLabel(TLabel source, TLabel configuredLabel);
     }
 }

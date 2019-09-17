@@ -1,28 +1,29 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <RuntimeIdentifiers>win10-x64;osx.10.12-x64;linux-x64</RuntimeIdentifiers>
     <PackAsTool>true</PackAsTool>
-    <ToolCommandName>hublabel</ToolCommandName>
+    <ToolCommandName>tealabel</ToolCommandName>
 
-    <PackageId>MobileAct.GithubLabelSetUpper</PackageId>
+    <PackageId>MobileAct.GiteaLabelSetUpper</PackageId>
     <Version>0.0.1</Version>
     <Authors>Mobile Act</Authors>
     <PackageProjectUrl>https://github.com/MobileAct/GithubLabelSetUpper</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/MobileAct/GithubLabelSetUpper/blob/master/LICENSE.txt</PackageLicenseUrl>
-    <PackageTags>GitHub, Label</PackageTags>
-    <Description>dotnet global tools for GitHub label.</Description>
+    <PackageTags>Gitea, Label</PackageTags>
+    <Description>dotnet global tools for Gitea label.</Description>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="2.4.0-beta.81" />
     <PackageReference Include="Utf8Json" Version="1.3.7" />
     <PackageReference Include="YamlDotNet" Version="6.1.2" />
-    <PackageReference Include="Octokit" Version="0.32.0" />
-    <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="2.4.0-beta.81" />
   </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj" />
   </ItemGroup>
+
 </Project>

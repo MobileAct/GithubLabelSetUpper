@@ -6,12 +6,6 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <LangVersion>Latest</LangVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <LangVersion>Latest</LangVersion>
-  </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
     <PackageReference Include="MSTest.TestAdapter" Version="1.4.0" />
@@ -22,11 +16,11 @@
     <ProjectReference Include="..\GithubLabelSetUpper\GithubLabelSetUpper.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="YamlTest.json" />
     <None Remove="JsonTest.json" />
+    <None Remove="YamlTest.yml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="YamlTest.json" />
+    <EmbeddedResource Include="YamlTest.yml" />
     <EmbeddedResource Include="JsonTest.json" />
   </ItemGroup>
 </Project>
