@@ -5,10 +5,13 @@ This tool is motivated by [Financial-Times/github-label-sync](https://github.com
 This tool package is different for each provider:
 - [GitHub](https://github.com/)
 - [Gitea](https://gitea.io/en-us/)
+- [GitLab](https://about.gitlab.com/)
 
 Table Content
 - [GitHub](#github)
 - [Gitea](#gitea)
+- [GitLab](#gitlab)
+- [License](#license)
 - [Other](#other)
 
 # GitHub
@@ -115,8 +118,6 @@ The `description` property is optional.
 The `aliases` property is optional. If this property was set, its label will change to `name` from alias name. So it mean label is kept.
 
 ## License
-This tool is under MIT License.
-
 This tool is using libraries:
 
 - [Utf8Json](https://github.com/neuecc/Utf8Json) is published by [MIT License](https://github.com/neuecc/Utf8Json/blob/master/LICENSE)
@@ -233,13 +234,134 @@ The `description` property is optional.
 The `aliases` property is optional. If this property was set, its label will change to `name` from alias name. So it mean label is kept.
 
 ## License
-This tool is under MIT License.
-
 This tool is using libraries:
 
 - [Utf8Json](https://github.com/neuecc/Utf8Json) is published by [MIT License](https://github.com/neuecc/Utf8Json/blob/master/LICENSE)
 - [YamlDotNet](https://github.com/aaubry/YamlDotNet) is published by [MIT License](https://github.com/aaubry/YamlDotNet/blob/master/LICENSE)
 - [CommandLineUtils](https://github.com/natemcmaster/CommandLineUtils) is published by [Apache License v2.0](https://github.com/natemcmaster/CommandLineUtils/blob/master/LICENSE.txt)
+
+# GitLab
+**ToDo: Write test code**
+## Usage
+1. Install .NET Core 2.2 or higher.
+1. Install [this package](https://www.nuget.org/packages/MobileAct.GitlabLabelSetUpper).
+
+Installed `lablabel` command.
+
+### Environment Variables
+- `GITLAB_HOST`: using environment variable instead of argument `--host`
+- `GITLAB_TOKEN`: using environment variable instead of argument `-t|--token`
+
+### Commands
+
+#### List labels
+
+```
+List the all labels
+
+Usage: lablabel list [options]
+
+Options:
+  -h|--help        Show help information
+  --host           Host of GitLab instance, default value is https://gitlab.com
+  -t|--token       Token of GitLab
+  -r|--repository  Target repository, value format: {Owner}/{RepositoryName}
+  -o|--output      Output file name, including file extension
+```
+
+Look up current repository labels and output file.
+
+You can [response file parsing](https://natemcmaster.github.io/CommandLineUtils/docs/response-file-parsing.html?tabs=using-attributes). Make file `list.txt`, example:
+```
+list
+--host
+https://gitlab.com
+-t
+YOUR_GITEA_TOKEN
+-r
+REPOSITORY_OWNER/REPOSITORY_NAME
+-o
+output.yml
+```
+Execute command: `lablabel @list.txt`
+
+#### SetUp Labels
+
+```
+Setup GitLab labels by option value
+
+Usage: lablabel setup [options]
+
+Options:
+  -h|--help        Show help information
+  --host           Host of GitLab instance, default value is https://gitlab.com
+  -t|--token       Token of GitLab
+  -r|--repository  Target repository, value format: {Owner}/{RepositoryName}
+  -l|--label       The labels configuration file, support json or yml file.
+  -d|--dry-run     Calculate the required label changes, but do not apply GitLab
+```
+
+Look up current repository labels and output file.
+
+You can [response file parsing](https://natemcmaster.github.io/CommandLineUtils/docs/response-file-parsing.html?tabs=using-attributes). Make file `setup.txt`, example:
+```
+setup
+--host
+https://gitlab.com
+-t
+YOUR_GITEA_TOKEN
+-r
+REPOSITORY_OWNER/REPOSITORY_NAME
+-l
+LABEL_FILE
+```
+Execute command: `lablabel @setup.txt`
+
+### Label file
+Almost the same of GitHub label file.  
+Support file type: JSON or YAML
+
+example of yaml:
+
+```yml
+- id: 111
+  name: 不具合
+  color: d73a4a
+  description: Something isn't working
+  priority: 2
+  aliases:
+    - bug
+- id: 123
+  name: 機能
+  color: a2eeef
+  description: New feature
+  aliases:
+    - enhancement
+- name: Feature Request
+  color: 7057ff
+  description: New feature request
+```
+
+The `id` is optional and provided by Gitea. Recomend that do not set `id`.
+
+The `name` and `color` property is required. `color` property value is color code without `#`.
+
+The `description` property is optional.
+
+The `priority` property is optional, it is integer.
+
+The `aliases` property is optional. If this property was set, its label will change to `name` from alias name. So it mean label is kept.
+
+## License
+This tool is using libraries:
+
+- [Utf8Json](https://github.com/neuecc/Utf8Json) is published by [MIT License](https://github.com/neuecc/Utf8Json/blob/master/LICENSE)
+- [YamlDotNet](https://github.com/aaubry/YamlDotNet) is published by [MIT License](https://github.com/aaubry/YamlDotNet/blob/master/LICENSE)
+- [CommandLineUtils](https://github.com/natemcmaster/CommandLineUtils) is published by [Apache License v2.0](https://github.com/natemcmaster/CommandLineUtils/blob/master/LICENSE.txt)
+- [GitLabApiClient](https://github.com/nmklotas/GitLabApiClient) is published by [MIT License](https://github.com/nmklotas/GitLabApiClient/blob/master/LICENSE)
+
+# License
+This tools is under MIT License
 
 # Other
 
@@ -248,7 +370,7 @@ ToDo: Write
 
 ### Development Environment
 - C# 8.0
-- Visual Studio 2019 Preview
+- Visual Studio 2019
 
 ## Other
 Author: [@MeilCli](https://github.com/MeilCli)

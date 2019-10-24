@@ -1,0 +1,15 @@
+[
+    {
+        "name": "name1",
+        "color": "ffffff",
+        "description": "description",
+        "aliases": [
+            "name1_1",
+            "name1_2"
+        ]
+    },
+    {
+        "name": "name2",
+        "color": "ffffff"
+    }
+]

@@ -12,6 +12,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GiteaLabelSetUpper", "Gitea
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GiteaLabelSetUpper.Test", "GiteaLabelSetUpper.Test\GiteaLabelSetUpper.Test.csproj", "{93026D01-F1A4-46B3-A3B7-925F0EB689E5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GitlabLabelSetUpper", "GitlabLabelSetUpper\GitlabLabelSetUpper.csproj", "{54BA476A-2D8A-4216-A4BE-B0AEFE922143}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GitlabLabelSetUpper.Test", "GitlabLabelSetUpper.Test\GitlabLabelSetUpper.Test.csproj", "{B6A65A37-1FFE-4F68-AA22-D7B9E833343B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,6 +42,14 @@ Global
 		{93026D01-F1A4-46B3-A3B7-925F0EB689E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93026D01-F1A4-46B3-A3B7-925F0EB689E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93026D01-F1A4-46B3-A3B7-925F0EB689E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54BA476A-2D8A-4216-A4BE-B0AEFE922143}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54BA476A-2D8A-4216-A4BE-B0AEFE922143}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54BA476A-2D8A-4216-A4BE-B0AEFE922143}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54BA476A-2D8A-4216-A4BE-B0AEFE922143}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6A65A37-1FFE-4F68-AA22-D7B9E833343B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6A65A37-1FFE-4F68-AA22-D7B9E833343B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6A65A37-1FFE-4F68-AA22-D7B9E833343B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6A65A37-1FFE-4F68-AA22-D7B9E833343B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
